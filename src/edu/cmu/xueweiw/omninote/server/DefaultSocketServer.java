@@ -65,14 +65,19 @@ public class DefaultSocketServer extends Thread implements SocketClientConstants
 
 				} else if (cmd == SIGN_UP) {
 					System.out.println("Sign up...");
-					try {
-						User user = (User) objectInputStream.readObject();
-						databaseManager.save(user);
+					String userString = objectInputStream.readUTF();
+					String[] fields = userString.split(",");
+					String userName = fields[2];
+					String email = fields[0];
+					String pwd = fields[1];
+					User user = new User(userName, email, pwd);
+					boolean isSuccessful = databaseManager.save(user);
+					if (isSuccessful) {
 						System.out.println("Sign up success!");
 						objectOutputStream.writeObject("success");
-					} catch (ClassNotFoundException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
+					} else {
+						System.out.println("Sign up Fail!");
+						objectOutputStream.writeObject("fail");
 					}
 				} else if (cmd == INSERT_NOTE) {
 					System.out.println("Insert note...");

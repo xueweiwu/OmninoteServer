@@ -23,10 +23,10 @@ public class User extends Model {
 		
 	}
 
-	public User(int id, String userName, String email) {
-		this.id = id;
+	public User(String userName, String email, String pwd) {
 		this.userName = userName;
 		this.email = email;
+		this.password = pwd;
 	}
 
 	public Integer getId() {
