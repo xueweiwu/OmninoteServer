@@ -59,8 +59,9 @@ public class DefaultSocketServer extends Thread implements SocketClientConstants
 						objectOutputStream.writeObject("fail");
 
 					} else {
-						System.out.println("Sign in success!");
-						objectOutputStream.writeObject("success");
+						User user = (User) userList.get(0);
+						System.out.println("Sign in success! User ID:" + user.getId().toString());
+						objectOutputStream.writeObject(user.getId().toString());
 					}
 
 				} else if (cmd == SIGN_UP) {
@@ -73,8 +74,8 @@ public class DefaultSocketServer extends Thread implements SocketClientConstants
 					User user = new User(userName, email, pwd);
 					boolean isSuccessful = databaseManager.save(user);
 					if (isSuccessful) {
-						System.out.println("Sign up success!");
-						objectOutputStream.writeObject("success");
+						System.out.println("Sign up success! User ID:" + user.getId().toString());
+						objectOutputStream.writeObject(user.getId().toString());
 					} else {
 						System.out.println("Sign up Fail!");
 						objectOutputStream.writeObject("fail");
