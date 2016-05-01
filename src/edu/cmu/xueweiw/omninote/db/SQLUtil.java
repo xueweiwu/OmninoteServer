@@ -150,49 +150,6 @@ public class SQLUtil {
 
 	}
 
-	@SuppressWarnings("deprecation")
-	public static Date string2Date(String dateString) {
-		String[] items = dateString.split("/");
-		int year = Integer.parseInt(items[2]);
-		int month = Integer.parseInt(items[0]);
-		int day = Integer.parseInt(items[1]);
-
-		return new Date(year - 1900, month - 1, day);
-	}
-
-	public static String getSelectSQL(Class<? extends Model> cls,
-			String fieldName1, Object value, String fieldName2, Object fValue,
-			Object tValue) {
-		// TODO Auto-generated method stub
-		Model entity;
-		String arg1 = value.toString();
-		String fArg2 = fValue.toString();
-		String tArg2 = tValue.toString();
-		try {
-			entity = cls.newInstance();
-			String columnName1 = entity.columnName(fieldName1);
-			String columnName2 = entity.columnName(fieldName2);
-			DataType type = cls.getDeclaredField(fieldName1)
-					.getAnnotation(Column.class).type();
-			if (type == DataType.TEXT) {
-				arg1 = "'" + value + "'";
-			}
-			type = cls.getDeclaredField(fieldName2).getAnnotation(Column.class)
-					.type();
-			if (type == DataType.TEXT || type == DataType.DATE || type == DataType.DATETIME) {
-				fArg2 = "'" + fValue + "'";
-				tArg2 = "'" + tValue + "'";
-			}
-
-			return "SELECT * FROM " + entity.tableName() + " WHERE "
-					+ columnName1 + " = " + arg1 + " AND " + columnName2
-					+ " >= " + fArg2 + " AND " + columnName2 + " <= " + tArg2;
-		} catch (Exception e) {
-			e.printStackTrace();
-			return null;
-		}
-	}
-
 	public static String getNoteRangeSQL(Class<Note> cls, double d,
 			double f, int radius_km) {
 		// TODO Auto-generated method stub
@@ -202,7 +159,6 @@ public class SQLUtil {
 				+ "* cos( radians(note.longitude) - radians(" + d
 				+ ")) + sin(radians(" + f
 				+ ")) * sin( radians(note.latitude)))) AS distance "
-				+ "FROM note " + " HAVING distance < " + radius_km
-				+ " ORDER BY date desc";
+				+ "FROM note " + " HAVING distance < " + radius_km;
 	}
 }

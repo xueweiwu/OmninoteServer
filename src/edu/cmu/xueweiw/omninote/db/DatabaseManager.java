@@ -165,27 +165,6 @@ public class DatabaseManager {
 		return null;
 	}
 
-
-	public List<Model> findByFieldName(Class<? extends Model> cls,
-			String fieldName1, Object value, String fieldName2, Object fValue,
-			Object tValue) {
-		// TODO Auto-generated method stub
-		try {
-			Statement statement = connection.createStatement();
-			String updatesql = SQLUtil.getSelectSQL(cls, fieldName1, value, fieldName2, fValue, tValue);
-			ResultSet resultSet = statement.executeQuery(updatesql);
-			List<Model> results = SQLUtil.ResultSetToList(resultSet, cls);
-			close();
-
-			return results;
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-			close();
-		}
-		return null;
-	}
-
 	public List<Model> findNoteByRange(double d, double f,
 			int radius_km) {
 		// TODO Auto-generated method stub
