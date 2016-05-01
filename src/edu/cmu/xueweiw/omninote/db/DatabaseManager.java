@@ -12,6 +12,7 @@ import java.util.List;
 
 import net.rangesoftware.mengw.omninote.model.Model;
 import net.rangesoftware.mengw.omninote.model.Note;
+import net.rangesoftware.mengw.omninote.model.User;
 
 /**
  * 
@@ -19,8 +20,7 @@ import net.rangesoftware.mengw.omninote.model.Note;
  */
 public class DatabaseManager {
 
-
-	private static final String DB_URL = "jdbc:mysql://localhost:3306/spotagram";
+	private static final String DB_URL = "jdbc:mysql://localhost:3306/omninote";
 	private static final String DB_USER = "root";
 	private static final String DB_PASSWORD = "root";
 	private Connection connection;
@@ -33,6 +33,7 @@ public class DatabaseManager {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+
 	}
 
 	public static synchronized DatabaseManager getInstance() {
@@ -44,8 +45,8 @@ public class DatabaseManager {
 
 	public DatabaseManager open() {
 		try {
-			connection = DriverManager.getConnection(DB_URL, DB_USER,
-					DB_PASSWORD);
+			connection = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
+
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -80,7 +81,7 @@ public class DatabaseManager {
 			close();
 			return false;
 		}
-		
+
 	}
 
 	public boolean update(Model entity) {
@@ -96,7 +97,7 @@ public class DatabaseManager {
 			close();
 			return false;
 		}
-		
+
 	}
 
 	public boolean delete(Model entity) {
@@ -112,7 +113,7 @@ public class DatabaseManager {
 			close();
 			return false;
 		}
-		
+
 		//
 	}
 
@@ -126,8 +127,7 @@ public class DatabaseManager {
 
 	}
 
-	public List<Model> findByFieldName(Class<? extends Model> cls,
-			String fieldName, Object value) {
+	public List<Model> findByFieldName(Class<? extends Model> cls, String fieldName, Object value) {
 		// List<Model> result = new ArrayList<Model>();
 		try {
 			Statement statement = connection.createStatement();
@@ -142,10 +142,10 @@ public class DatabaseManager {
 			e.printStackTrace();
 			close();
 		}
-		
+
 		return null;
 	}
-	
+
 	public List<Model> findAll(Class<? extends Model> cls) {
 		// List<Model> result = new ArrayList<Model>();
 		try {
@@ -161,12 +161,11 @@ public class DatabaseManager {
 			e.printStackTrace();
 			close();
 		}
-		
+
 		return null;
 	}
 
-	public List<Model> findNoteByRange(double d, double f,
-			int radius_km) {
+	public List<Model> findNoteByRange(double d, double f, int radius_km) {
 		// TODO Auto-generated method stub
 		try {
 			Statement statement = connection.createStatement();
@@ -182,7 +181,7 @@ public class DatabaseManager {
 			close();
 		}
 		return null;
-	
+
 	}
 
 }

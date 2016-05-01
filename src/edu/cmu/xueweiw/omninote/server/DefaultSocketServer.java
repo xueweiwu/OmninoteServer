@@ -49,20 +49,20 @@ public class DefaultSocketServer extends Thread implements SocketClientConstants
 
 				if (cmd == SIGN_IN) {
 					System.out.println("Sign in...");
-					try {
-						User user = (User) objectInputStream.readObject();
-						List<Model> userList = databaseManager.findByFieldName(User.class, "email", user.getEmail());
-						if (userList.isEmpty()) {
 
-						} else {
-							// see whether it's match
-						}
-						System.out.println("upload success!");
+					String userString = objectInputStream.readUTF();
+					System.out.println(userString);
+					String[] emailAndPwd = userString.split(",");
+					List<Model> userList = databaseManager.findByFieldName(User.class, "email", emailAndPwd[0]);
+					if (userList.isEmpty()) {
+						System.out.println("Sign in Fail!");
+						objectOutputStream.writeObject("fail");
+
+					} else {
+						System.out.println("Sign in success!");
 						objectOutputStream.writeObject("success");
-					} catch (ClassNotFoundException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
 					}
+
 				} else if (cmd == SIGN_UP) {
 					System.out.println("Sign up...");
 					try {
@@ -91,7 +91,7 @@ public class DefaultSocketServer extends Thread implements SocketClientConstants
 						NoteLocation location = (NoteLocation) objectInputStream.readObject();
 						int radius_km = 1000;
 						List<Model> userList = databaseManager.findNoteByRange(location.getLongitude(),
-								location.getLatitude(), radius_km );
+								location.getLatitude(), radius_km);
 						if (userList.isEmpty()) {
 
 						} else {
