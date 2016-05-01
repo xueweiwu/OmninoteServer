@@ -44,6 +44,10 @@ public class Note extends Model {
 	
 	@Column(name="voice", type =DataType.TEXT)
 	private String voicePath;
+	
+	public Note() {
+		
+	}
 
 	public Note(int id, String title, int ownerID, String visibility, String createdTime, String category,
 			double latitude, double longitude, String content) {

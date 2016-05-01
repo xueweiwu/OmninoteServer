@@ -12,6 +12,10 @@ import edu.cmu.xueweiw.omninote.db.Column.DataType;
 import edu.cmu.xueweiw.omninote.db.Table;; 
 
 abstract public class Model implements Serializable {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 8280499050184922157L;
 	@Column(name = "_id", type = DataType.INTEGER, pk = true)
 	protected Integer id;
 
@@ -23,6 +27,9 @@ abstract public class Model implements Serializable {
 	}
 
 	public String tableName() {
+		System.out.println(getClass().toString());
+		System.out.println(getClass().getAnnotation(Table.class).toString());
+		System.out.println(getClass().getAnnotation(Table.class).name());
 		return getClass().getAnnotation(Table.class).name();
 	}
 

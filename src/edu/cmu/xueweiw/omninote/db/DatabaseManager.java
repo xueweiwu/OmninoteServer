@@ -20,16 +20,33 @@ import net.rangesoftware.mengw.omninote.model.User;
  */
 public class DatabaseManager {
 
-	private static final String DB_URL = "jdbc:mysql://localhost:3306/omninote";
+	private static final String DB_URL = "jdbc:mysql://localhost:3306/";
 	private static final String DB_USER = "root";
 	private static final String DB_PASSWORD = "root";
 	private Connection connection;
+	private Statement statement;
 	private static DatabaseManager instance;
 
 	private DatabaseManager() {
 		try {
 			Class.forName("com.mysql.jdbc.Driver");
+
+			connection = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
+
+			statement = connection.createStatement();
+
+//			statement.execute("CREATE DATABASE omninote;");
+			statement.execute("USE omninote;");
+			
+			String createUserSQL = SQLUtil.getCreateTableSQL(User.class);
+			System.out.println(createUserSQL);
+			statement.executeUpdate(createUserSQL);
+			String createNoteSQL = SQLUtil.getCreateTableSQL(Note.class);
+			statement.executeUpdate(createNoteSQL);
 		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
@@ -66,7 +83,6 @@ public class DatabaseManager {
 
 	public boolean save(Model entity) {
 		try {
-			Statement statement = connection.createStatement();
 			String savesql = SQLUtil.getInsertSQL(entity);
 			statement.executeUpdate(savesql, Statement.RETURN_GENERATED_KEYS);
 			ResultSet resultSet = statement.getGeneratedKeys();
@@ -86,7 +102,6 @@ public class DatabaseManager {
 
 	public boolean update(Model entity) {
 		try {
-			Statement statement = connection.createStatement();
 			String updatesql = SQLUtil.getUpdateSQL(entity);
 			statement.execute(updatesql);
 			close();
@@ -102,7 +117,6 @@ public class DatabaseManager {
 
 	public boolean delete(Model entity) {
 		try {
-			Statement statement = connection.createStatement();
 			String updatesql = SQLUtil.getDeleteSQL(entity);
 			statement.execute(updatesql);
 			close();
@@ -130,7 +144,6 @@ public class DatabaseManager {
 	public List<Model> findByFieldName(Class<? extends Model> cls, String fieldName, Object value) {
 		// List<Model> result = new ArrayList<Model>();
 		try {
-			Statement statement = connection.createStatement();
 			String updatesql = SQLUtil.getSelectSQL(cls, fieldName, value);
 			ResultSet resultSet = statement.executeQuery(updatesql);
 			List<Model> results = SQLUtil.ResultSetToList(resultSet, cls);
@@ -149,7 +162,6 @@ public class DatabaseManager {
 	public List<Model> findAll(Class<? extends Model> cls) {
 		// List<Model> result = new ArrayList<Model>();
 		try {
-			Statement statement = connection.createStatement();
 			String updatesql = SQLUtil.getSelectSQL(cls);
 			ResultSet resultSet = statement.executeQuery(updatesql);
 			List<Model> results = SQLUtil.ResultSetToList(resultSet, cls);
@@ -168,7 +180,6 @@ public class DatabaseManager {
 	public List<Model> findNoteByRange(double d, double f, int radius_km) {
 		// TODO Auto-generated method stub
 		try {
-			Statement statement = connection.createStatement();
 			String updatesql = SQLUtil.getNoteRangeSQL(Note.class, d, f, radius_km);
 			ResultSet resultSet = statement.executeQuery(updatesql);
 			List<Model> results = SQLUtil.ResultSetToList(resultSet, Note.class);

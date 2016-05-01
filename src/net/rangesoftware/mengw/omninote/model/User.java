@@ -2,10 +2,12 @@ package net.rangesoftware.mengw.omninote.model;
 
 import edu.cmu.xueweiw.omninote.db.Column;
 import edu.cmu.xueweiw.omninote.db.Column.DataType;
+import edu.cmu.xueweiw.omninote.db.Table;
 
 /**
  * Created by Xuewei Wu on 4/11/16.
  */
+@Table(name="user")
 public class User extends Model {
 
 	@Column(name = "username", type = DataType.TEXT)
@@ -16,6 +18,10 @@ public class User extends Model {
 
 	@Column(name = "password", type = DataType.TEXT)
 	private String password;
+	
+	public User() {
+		
+	}
 
 	public User(int id, String userName, String email) {
 		this.id = id;

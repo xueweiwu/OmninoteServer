@@ -23,6 +23,7 @@ public class SQLUtil {
 	public static String getCreateTableSQL(Class<? extends Model> modelClass) {
 		Model m = null;
 		try {
+			System.out.println(modelClass.newInstance());
 			m = modelClass.newInstance();
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -31,7 +32,7 @@ public class SQLUtil {
 		StringBuilder sb = new StringBuilder(100);
 		sb.append("CREATE TABLE IF NOT EXISTS ");
 		sb.append(m.tableName()).append("(").append(m.idColumnName())
-				.append(" INTEGER PRIMARY KEY AUTOINCREMENT");
+				.append(" INTEGER PRIMARY KEY AUTO_INCREMENT");
 		for (Field f : m.getClass().getDeclaredFields()) {
 			if (f.isAnnotationPresent(Column.class)) {
 				Column c = f.getAnnotation(Column.class);
