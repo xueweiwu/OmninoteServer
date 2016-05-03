@@ -23,7 +23,6 @@ public class SQLUtil {
 	public static String getCreateTableSQL(Class<? extends Model> modelClass) {
 		Model m = null;
 		try {
-			System.out.println(modelClass.newInstance());
 			m = modelClass.newInstance();
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -130,7 +129,6 @@ public class SQLUtil {
 			if (entity instanceof Note) {
 				selectSQLString += " order by date desc";
 			}
-			System.out.println(selectSQLString);
 			return selectSQLString;
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -154,7 +152,7 @@ public class SQLUtil {
 	public static String getNoteRangeSQL(Class<Note> cls, double d,
 			double f, int radius_km) {
 		// TODO Auto-generated method stub
-
+		System.out.println("in getNoteRangeSQL:" + d + ", " + f + ", " + radius_km);
 		return "SELECT *, ( 3959 * acos( cos( radians(" + f
 				+ ") ) * cos( radians( note.latitude ) )"
 				+ "* cos( radians(note.longitude) - radians(" + d

@@ -39,7 +39,6 @@ public class DatabaseManager {
 			statement.execute("USE omninote;");
 			
 			String createUserSQL = SQLUtil.getCreateTableSQL(User.class);
-			System.out.println(createUserSQL);
 			statement.executeUpdate(createUserSQL);
 			String createNoteSQL = SQLUtil.getCreateTableSQL(Note.class);
 			statement.executeUpdate(createNoteSQL);

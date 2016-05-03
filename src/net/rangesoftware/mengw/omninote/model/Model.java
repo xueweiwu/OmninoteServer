@@ -27,9 +27,6 @@ abstract public class Model implements Serializable {
 	}
 
 	public String tableName() {
-		System.out.println(getClass().toString());
-		System.out.println(getClass().getAnnotation(Table.class).toString());
-		System.out.println(getClass().getAnnotation(Table.class).name());
 		return getClass().getAnnotation(Table.class).name();
 	}
 
