@@ -13,7 +13,7 @@ public interface SocketClientConstants {
 
 	public final int SIGN_IN = 0;
 	public final int SIGN_UP = 1;
-	public final int INSERT_NOTE = 2;
-	public final int GET_NEARBY = 3;
+	//public final int INSERT_NOTE = 2;
+	//public final int GET_NEARBY = 3;
 
 }

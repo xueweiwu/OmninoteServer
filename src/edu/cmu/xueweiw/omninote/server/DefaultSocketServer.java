@@ -80,18 +80,8 @@ public class DefaultSocketServer extends Thread implements SocketClientConstants
 						System.out.println("Sign up Fail!");
 						objectOutputStream.writeObject("fail");
 					}
-				} else if (cmd == INSERT_NOTE) {
-					System.out.println("Insert note...");
-					try {
-						Note note = (Note) objectInputStream.readObject();
-						databaseManager.save(note);
-						System.out.println("Insert note success!");
-						objectOutputStream.writeObject(note);
-					} catch (ClassNotFoundException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
 				} 
+				
 				objectOutputStream.flush();
 			}
 
