@@ -56,12 +56,15 @@ public class DefaultSocketServer extends Thread implements SocketClientConstants
 					List<Model> userList = databaseManager.findByFieldName(User.class, "email", emailAndPwd[0]);
 					if (userList.isEmpty()) {
 						System.out.println("Sign in Fail!");
-						objectOutputStream.writeObject("fail");
-
+						objectOutputStream.writeObject(FAIL + ": email " + emailAndPwd[0] + " cannot be found");
 					} else {
 						User user = (User) userList.get(0);
-						System.out.println("Sign in success! User ID:" + user.getId().toString());
-						objectOutputStream.writeObject(user.getId().toString());
+						if (!user.getPassword().equals(emailAndPwd[1])) {
+							objectOutputStream.writeObject(FAIL + ": password error!");
+						} else {
+							System.out.println("Sign in success! User ID:" + user.getId().toString());
+							objectOutputStream.writeObject(user.getId().toString());
+						}
 					}
 
 				} else if (cmd == SIGN_UP) {
@@ -72,16 +75,27 @@ public class DefaultSocketServer extends Thread implements SocketClientConstants
 					String email = fields[0];
 					String pwd = fields[1];
 					User user = new User(userName, email, pwd);
-					boolean isSuccessful = databaseManager.save(user);
-					if (isSuccessful) {
-						System.out.println("Sign up success! User ID:" + user.getId().toString());
-						objectOutputStream.writeObject(user.getId().toString());
+					List<Model> userList = databaseManager.findByFieldName(User.class, "email", email);
+					List<Model> userListSameUsername = databaseManager.findByFieldName(User.class, "username",
+							userName);
+					if (!userList.isEmpty()) {
+						System.out.println("Sign up Fail! Email " + email + "has been used!");
+						objectOutputStream.writeObject(FAIL);
+					} else if (!userListSameUsername.isEmpty()) {
+						System.out.println("Sign up Fail! User Name " + userName + "has been used!");
+						objectOutputStream.writeObject(FAIL);
 					} else {
-						System.out.println("Sign up Fail!");
-						objectOutputStream.writeObject("fail");
+						boolean isSuccessful = databaseManager.save(user);
+						if (isSuccessful) {
+							System.out.println("Sign up success! User ID:" + user.getId().toString());
+							objectOutputStream.writeObject(user.getId().toString());
+						} else {
+							System.out.println("Sign up Fail!");
+							objectOutputStream.writeObject(FAIL);
+						}
 					}
-				} 
-				
+				}
+
 				objectOutputStream.flush();
 			}
 
