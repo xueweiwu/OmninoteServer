@@ -149,15 +149,4 @@ public class SQLUtil {
 
 	}
 
-	public static String getNoteRangeSQL(Class<Note> cls, double d,
-			double f, int radius_km) {
-		// TODO Auto-generated method stub
-		System.out.println("in getNoteRangeSQL:" + d + ", " + f + ", " + radius_km);
-		return "SELECT *, ( 3959 * acos( cos( radians(" + f
-				+ ") ) * cos( radians( note.latitude ) )"
-				+ "* cos( radians(note.longitude) - radians(" + d
-				+ ")) + sin(radians(" + f
-				+ ")) * sin( radians(note.latitude)))) AS distance "
-				+ "FROM note " + " HAVING distance < " + radius_km;
-	}
 }

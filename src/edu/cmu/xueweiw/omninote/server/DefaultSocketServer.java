@@ -91,25 +91,7 @@ public class DefaultSocketServer extends Thread implements SocketClientConstants
 						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
-				} else if (cmd == GET_NEARBY) {
-					System.out.println("Get nearby...");
-					try {
-						NoteLocation location = (NoteLocation) objectInputStream.readObject();
-						int radius_km = 1000;
-						List<Model> userList = databaseManager.findNoteByRange(location.getLongitude(),
-								location.getLatitude(), radius_km);
-						if (userList.isEmpty()) {
-
-						} else {
-							// see whether it's match
-						}
-						System.out.println("upload success!");
-						objectOutputStream.writeObject("success");
-					} catch (ClassNotFoundException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
-				}
+				} 
 				objectOutputStream.flush();
 			}
 

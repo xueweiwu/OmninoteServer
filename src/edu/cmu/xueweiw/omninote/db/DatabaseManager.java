@@ -176,22 +176,4 @@ public class DatabaseManager {
 		return null;
 	}
 
-	public List<Model> findNoteByRange(double d, double f, int radius_km) {
-		// TODO Auto-generated method stub
-		try {
-			String updatesql = SQLUtil.getNoteRangeSQL(Note.class, d, f, radius_km);
-			ResultSet resultSet = statement.executeQuery(updatesql);
-			List<Model> results = SQLUtil.ResultSetToList(resultSet, Note.class);
-			close();
-
-			return results;
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-			close();
-		}
-		return null;
-
-	}
-
 }
