@@ -11,7 +11,6 @@ import java.sql.Statement;
 import java.util.List;
 
 import net.rangesoftware.mengw.omninote.model.Model;
-import net.rangesoftware.mengw.omninote.model.Note;
 import net.rangesoftware.mengw.omninote.model.User;
 
 /**
@@ -35,13 +34,12 @@ public class DatabaseManager {
 
 			statement = connection.createStatement();
 
-//			statement.execute("CREATE DATABASE omninote;");
+			statement.execute("DROP DATABASE omninote;");
+			statement.execute("CREATE DATABASE IF NOT EXISTS omninote;");
 			statement.execute("USE omninote;");
 			
 			String createUserSQL = SQLUtil.getCreateTableSQL(User.class);
 			statement.executeUpdate(createUserSQL);
-			String createNoteSQL = SQLUtil.getCreateTableSQL(Note.class);
-			statement.executeUpdate(createNoteSQL);
 		} catch (ClassNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

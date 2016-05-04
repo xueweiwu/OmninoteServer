@@ -4,7 +4,6 @@
 package edu.cmu.xueweiw.omninote.db;
 
 import java.lang.reflect.Field;
-import java.sql.Date;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
@@ -12,7 +11,6 @@ import java.util.Map;
 
 import edu.cmu.xueweiw.omninote.db.Column.DataType;
 import net.rangesoftware.mengw.omninote.model.Model;
-import net.rangesoftware.mengw.omninote.model.Note;
 
 /**
  * 
@@ -30,14 +28,12 @@ public class SQLUtil {
 		}
 		StringBuilder sb = new StringBuilder(100);
 		sb.append("CREATE TABLE IF NOT EXISTS ");
-		sb.append(m.tableName()).append("(").append(m.idColumnName())
-				.append(" INTEGER PRIMARY KEY AUTO_INCREMENT");
+		sb.append(m.tableName()).append("(").append(m.idColumnName()).append(" INTEGER PRIMARY KEY AUTO_INCREMENT");
 		for (Field f : m.getClass().getDeclaredFields()) {
 			if (f.isAnnotationPresent(Column.class)) {
 				Column c = f.getAnnotation(Column.class);
 				if (!c.pk()) {
-					sb.append(",").append(c.name()).append(" ")
-							.append(c.type());
+					sb.append(",").append(c.name()).append(" ").append(c.type());
 				}
 			}
 		}
@@ -58,8 +54,7 @@ public class SQLUtil {
 		return sb.toString();
 	}
 
-	public static List<Model> ResultSetToList(ResultSet resultSet,
-			Class<? extends Model> cls) {
+	public static List<Model> ResultSetToList(ResultSet resultSet, Class<? extends Model> cls) {
 		if (resultSet == null) {
 			return null;
 		}
@@ -88,8 +83,7 @@ public class SQLUtil {
 			value += entry.getValue() + ",";
 		}
 
-		return savequery + field.substring(0, field.length() - 1) + ")"
-				+ value.substring(0, value.length() - 1) + ")";
+		return savequery + field.substring(0, field.length() - 1) + ")" + value.substring(0, value.length() - 1) + ")";
 	}
 
 	public static String getUpdateSQL(Model entity) {
@@ -99,18 +93,15 @@ public class SQLUtil {
 			updatequery += entry.getKey() + "=" + entry.getValue() + ", ";
 		}
 
-		return updatequery.substring(0, updatequery.length() - 2)
-				+ " WHERE _id = " + entity.getId();
+		return updatequery.substring(0, updatequery.length() - 2) + " WHERE _id = " + entity.getId();
 	}
 
 	public static String getDeleteSQL(Model entity) {
 
-		return "DELETE FROM " + entity.tableName() + " WHERE "
-				+ entity.idColumnName() + " = " + entity.getId();
+		return "DELETE FROM " + entity.tableName() + " WHERE " + entity.idColumnName() + " = " + entity.getId();
 	}
 
-	public static String getSelectSQL(Class<? extends Model> cls,
-			String fieldName, Object value) {
+	public static String getSelectSQL(Class<? extends Model> cls, String fieldName, Object value) {
 		Model entity;
 		String args = value.toString();
 		String selectSQLString = "";
@@ -118,17 +109,12 @@ public class SQLUtil {
 			entity = cls.newInstance();
 			String where = entity.columnName(fieldName) + " = ";
 			if (!fieldName.equals("id")) {
-				DataType type = cls.getDeclaredField(fieldName)
-						.getAnnotation(Column.class).type();
+				DataType type = cls.getDeclaredField(fieldName).getAnnotation(Column.class).type();
 				if (type == DataType.TEXT) {
 					args = "'" + value + "'";
 				}
 			}
-			selectSQLString = "SELECT * FROM " + entity.tableName() + " WHERE " + where
-					+ args;
-			if (entity instanceof Note) {
-				selectSQLString += " order by date desc";
-			}
+			selectSQLString = "SELECT * FROM " + entity.tableName() + " WHERE " + where + args;
 			return selectSQLString;
 		} catch (Exception e) {
 			e.printStackTrace();

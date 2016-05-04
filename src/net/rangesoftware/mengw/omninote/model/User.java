@@ -9,22 +9,26 @@ import edu.cmu.xueweiw.omninote.db.Table;
  */
 @Table(name="user")
 public class User extends Model {
+	public static final String NAME_COLUMN = "username";
+	public static final String EMAIL_COLUMN = "email";
+	public static final String PASSWORD_COLUMN = "password";
 
-	@Column(name = "username", type = DataType.TEXT)
-	private String userName;
+	@Column(name = NAME_COLUMN, type = DataType.TEXT)
+	private String username;
 
-	@Column(name = "email", type = DataType.TEXT)
+	@Column(name = EMAIL_COLUMN, type = DataType.TEXT)
 	private String email;
 
-	@Column(name = "password", type = DataType.TEXT)
+	@Column(name = PASSWORD_COLUMN, type = DataType.TEXT)
 	private String password;
+	
 	
 	public User() {
 		
 	}
 
 	public User(String userName, String email, String pwd) {
-		this.userName = userName;
+		this.username = userName;
 		this.email = email;
 		this.password = pwd;
 	}
@@ -38,11 +42,11 @@ public class User extends Model {
 	}
 
 	public String getUserName() {
-		return userName;
+		return username;
 	}
 
 	public void setUserName(String userName) {
-		this.userName = userName;
+		this.username = userName;
 	}
 
 	public String getEmail() {

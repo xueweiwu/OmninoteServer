@@ -12,8 +12,6 @@ import java.util.List;
 
 import edu.cmu.xueweiw.omninote.db.DatabaseManager;
 import net.rangesoftware.mengw.omninote.model.Model;
-import net.rangesoftware.mengw.omninote.model.Note;
-import net.rangesoftware.mengw.omninote.model.NoteLocation;
 import net.rangesoftware.mengw.omninote.model.User;
 
 public class DefaultSocketServer extends Thread implements SocketClientConstants, SocketClientInterface {
@@ -75,8 +73,8 @@ public class DefaultSocketServer extends Thread implements SocketClientConstants
 					String email = fields[0];
 					String pwd = fields[1];
 					User user = new User(userName, email, pwd);
-					List<Model> userList = databaseManager.findByFieldName(User.class, "email", email);
-					List<Model> userListSameUsername = databaseManager.findByFieldName(User.class, "username",
+					List<Model> userList = databaseManager.findByFieldName(User.class, User.EMAIL_COLUMN, email);
+					List<Model> userListSameUsername = databaseManager.findByFieldName(User.class, User.NAME_COLUMN,
 							userName);
 					if (!userList.isEmpty()) {
 						System.out.println("Sign up Fail! Email " + email + "has been used!");
