@@ -34,7 +34,7 @@ public class DatabaseManager {
 
 			statement = connection.createStatement();
 
-			statement.execute("DROP DATABASE omninote;");
+			//statement.execute("DROP DATABASE omninote;");
 			statement.execute("CREATE DATABASE IF NOT EXISTS omninote;");
 			statement.execute("USE omninote;");
 			

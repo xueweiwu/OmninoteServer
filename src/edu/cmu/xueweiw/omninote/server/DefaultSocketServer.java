@@ -49,7 +49,7 @@ public class DefaultSocketServer extends Thread implements SocketClientConstants
 					System.out.println("Sign in...");
 
 					String userString = objectInputStream.readUTF();
-					System.out.println(userString);
+					//System.out.println(userString);
 					String[] emailAndPwd = userString.split(",");
 					List<Model> userList = databaseManager.findByFieldName(User.class, "email", emailAndPwd[0]);
 					if (userList.isEmpty()) {
